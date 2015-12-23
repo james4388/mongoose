@@ -208,7 +208,8 @@ block content
   :js
     var userSchema = new Schema({
       name: String,
-      friends: [{ type: ObjectId, ref: 'User' }]
+      friends: [{ type: ObjectId, ref: 'User' }],
+      address: [{ type: ObjectId, ref: 'Address' }]
     });
   :markdown
     Populate lets you get a list of a user's friends, but what if you also
@@ -221,6 +222,15 @@ block content
         path: 'friends',
         // Get friends of friends - populate the 'friends' array for every friend
         populate: { path: 'friends' }
+      });
+  :markdown
+    To populate different model, just specify option model:   
+  :js
+    User.
+      findOne({ name: 'Val' }).
+      populate({
+        path: 'address',
+        populate: { path: 'city', model: 'City' } //This will populate field city in address
       });
   
   h3#cross-db-populate Populating across Databases
